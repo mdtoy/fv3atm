@@ -2330,8 +2330,24 @@ module GFS_diagnostics
     do nb = 1,nblks
       ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dtdt_tot(:,:)
     enddo
-   ENDIF
+  ENDIF
 
+
+! Variables for GSL drag suite
+  if ( Model%gwd_opt.eq.33 .or. Model%gwd_opt.eq.22 ) then
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 3
+    ExtDiag(idx)%name = 'dudt_oss'
+    ExtDiag(idx)%desc = 'x wind tendency from small scale GWD'
+    ExtDiag(idx)%unit = 'm s-2'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dudt_oss(:,:)
+    enddo
+
+  end if
 
 
 !    if(mpp_pe()==mpp_root_pe())print *,'in gfdl_diag_register,af shum_wts,idx=',idx
