@@ -2330,11 +2330,57 @@ module GFS_diagnostics
     do nb = 1,nblks
       ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dtdt_tot(:,:)
     enddo
-  ENDIF
+  ENDIF  ! if (Model%ldiag_ugwp)
 
 
 ! Variables for GSL drag suite
   if ( Model%gwd_opt.eq.33 .or. Model%gwd_opt.eq.22 ) then
+
+    ! 3D variables
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 3
+    ExtDiag(idx)%name = 'dudt_ogw'
+    ExtDiag(idx)%desc = 'x wind tendency from mesoscale OGWD'
+    ExtDiag(idx)%unit = 'm s-2'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dudt_ogw(:,:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 3
+    ExtDiag(idx)%name = 'dvdt_ogw'
+    ExtDiag(idx)%desc = 'y wind tendency from mesoscale OGWD'
+    ExtDiag(idx)%unit = 'm s-2'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dvdt_ogw(:,:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 3
+    ExtDiag(idx)%name = 'dudt_obl'
+    ExtDiag(idx)%desc = 'x wind tendency from blocking drag'
+    ExtDiag(idx)%unit = 'm s-2'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dudt_obl(:,:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 3
+    ExtDiag(idx)%name = 'dvdt_obl'
+    ExtDiag(idx)%desc = 'y wind tendency from blocking drag'
+    ExtDiag(idx)%unit = 'm s-2'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dvdt_obl(:,:)
+    enddo
 
     idx = idx + 1
     ExtDiag(idx)%axes = 3
@@ -2345,6 +2391,129 @@ module GFS_diagnostics
     allocate (ExtDiag(idx)%data(nblks))
     do nb = 1,nblks
       ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dudt_oss(:,:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 3
+    ExtDiag(idx)%name = 'dvdt_oss'
+    ExtDiag(idx)%desc = 'y wind tendency from small scale GWD'
+    ExtDiag(idx)%unit = 'm s-2'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dvdt_oss(:,:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 3
+    ExtDiag(idx)%name = 'dudt_ofd'
+    ExtDiag(idx)%desc = 'x wind tendency from form drag'
+    ExtDiag(idx)%unit = 'm s-2'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dudt_ofd(:,:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 3
+    ExtDiag(idx)%name = 'dvdt_ofd'
+    ExtDiag(idx)%desc = 'y wind tendency from form drag'
+    ExtDiag(idx)%unit = 'm s-2'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var3 => IntDiag(nb)%dvdt_ofd(:,:)
+    enddo
+
+    ! 2D variables
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 2
+    ExtDiag(idx)%name = 'du_ogwcol'
+    ExtDiag(idx)%desc = 'integrated x momentum flux from meso scale ogw'
+    ExtDiag(idx)%unit = 'Pa'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%du_ogwcol(:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 2
+    ExtDiag(idx)%name = 'dv_ogwcol'
+    ExtDiag(idx)%desc = 'integrated y momentum flux from meso scale ogw'
+    ExtDiag(idx)%unit = 'Pa'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%dv_ogwcol(:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 2
+    ExtDiag(idx)%name = 'du_oblcol'
+    ExtDiag(idx)%desc = 'integrated x momentum flux from blocking drag'
+    ExtDiag(idx)%unit = 'Pa'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%du_oblcol(:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 2
+    ExtDiag(idx)%name = 'dv_oblcol'
+    ExtDiag(idx)%desc = 'integrated y momentum flux from blocking drag'
+    ExtDiag(idx)%unit = 'Pa'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%dv_oblcol(:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 2
+    ExtDiag(idx)%name = 'du_osscol'
+    ExtDiag(idx)%desc = 'integrated x momentum flux from small scale gwd'
+    ExtDiag(idx)%unit = 'Pa'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%du_osscol(:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 2
+    ExtDiag(idx)%name = 'dv_osscol'
+    ExtDiag(idx)%desc = 'integrated y momentum flux from small scale gwd'
+    ExtDiag(idx)%unit = 'Pa'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%dv_osscol(:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 2
+    ExtDiag(idx)%name = 'du_ofdcol'
+    ExtDiag(idx)%desc = 'integrated x momentum flux from form drag'
+    ExtDiag(idx)%unit = 'Pa'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%du_ofdcol(:)
+    enddo
+
+    idx = idx + 1
+    ExtDiag(idx)%axes = 2
+    ExtDiag(idx)%name = 'dv_ofdcol'
+    ExtDiag(idx)%desc = 'integrated y momentum flux from form drag'
+    ExtDiag(idx)%unit = 'Pa'
+    ExtDiag(idx)%mod_name = 'gfs_phys'
+    allocate (ExtDiag(idx)%data(nblks))
+    do nb = 1,nblks
+      ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%dv_ofdcol(:)
     enddo
 
   end if

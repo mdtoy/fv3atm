@@ -9,4 +9,4 @@
 [submodule "ccpp/physics"]
 	path = ccpp/physics
 	url = https://github.com/mdtoy/ccpp-physics
-	branch = ugwpv1_gsldrag_bugfixes_etc
+	branch = ugwpv1_gsldrag_new_diagnostics
