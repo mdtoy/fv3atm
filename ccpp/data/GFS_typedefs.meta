@@ -4986,6 +4986,12 @@
   units = flag
   dimensions = ()
   type = logical
+[ldiag_ugwp_gsl]
+  standard_name = diag_ugwp_gsl_flag
+  long_name = flag for CIRES UGWP with GSL Diagnostics
+  units = flag
+  dimensions = ()
+  type = logical
 [uni_cld]
   standard_name = flag_for_uni_cld
   long_name = flag for uni_cld
@@ -7230,6 +7236,38 @@
   type = real
   kind = kind_phys
   active = (diag_ugwp_flag)
+[dws3dt_ogw]
+  standard_name = cumulative_change_in_wind_speed_due_to_mesoscale_orographic_gravity_wave_drag
+  long_name = cumulative change in wind speed due to mesoscale orographic gravity wave drag
+  units = m s-1
+  dimensions = (horizontal_loop_extent,vertical_dimension)
+  type = real
+  kind = kind_phys
+  active = (diag_ugwp_flag)
+[dws3dt_obl]
+  standard_name = cumulative_change_in_wind_speed_due_to_blocking_drag
+  long_name = cumulative change in wind speed due to blocking drag
+  units = m s-1
+  dimensions = (horizontal_loop_extent,vertical_dimension)
+  type = real
+  kind = kind_phys
+  active = (diag_ugwp_flag)
+[dws3dt_oss]
+  standard_name = cumulative_change_in_wind_speed_due_to_small_scale_orographic_gravity_wave_drag
+  long_name = cumulative change in wind speed due to small scale orographic gravity wave drag
+  units = m s-1
+  dimensions = (horizontal_loop_extent,vertical_dimension)
+  type = real
+  kind = kind_phys
+  active = (diag_ugwp_flag .and. diag_ugwp_gsl_flag)
+[dws3dt_ofd]
+  standard_name = cumulative_change_in_wind_speed_due_to_turbulent_orographic_form_drag
+  long_name = cumulative change in wind speed due to turbulent orographic form drag
+  units = m s-1
+  dimensions = (horizontal_loop_extent,vertical_dimension)
+  type = real
+  kind = kind_phys
+  active = (diag_ugwp_flag .and. diag_ugwp_gsl_flag)
 [dudt_gw]
   standard_name = tendency_of_x_wind_due_to_gravity_wave_drag
   long_name = zonal wind tendency due to all GWs
@@ -7265,7 +7303,7 @@
   dimensions = (horizontal_loop_extent,vertical_dimension)
   type = real
   kind = kind_phys
-  active = (flag_for_ugwp_version_1 .or. gwd_opt==33 .or. gwd_opt==22 .or. gwd_opt==3 .or. gwd_opt==2)
+  active = (flag_for_ugwp_version_1 .or. diag_ugwp_gsl_flag)
 [dvdt_ogw]
   standard_name = tendency_of_y_wind_due_to_mesoscale_orographic_gravity_wave_drag
   long_name = y momentum tendency from meso scale ogw
@@ -7273,7 +7311,7 @@
   dimensions = (horizontal_loop_extent,vertical_dimension)
   type = real
   kind = kind_phys
-  active = (flag_for_ugwp_version_1 .or. gwd_opt==33 .or. gwd_opt==22 .or. gwd_opt==3 .or. gwd_opt==2)
+  active = (flag_for_ugwp_version_1 .or. diag_ugwp_gsl_flag)
 [du_ogwcol]
   standard_name = vertically_integrated_x_momentum_flux_due_to_mesoscale_orographic_gravity_wave_drag
   long_name = integrated x momentum flux from meso scale ogw
@@ -7297,7 +7335,7 @@
   dimensions = (horizontal_loop_extent,vertical_dimension)
   type = real
   kind = kind_phys
-  active = (flag_for_ugwp_version_1 .or. gwd_opt==33 .or. gwd_opt==22 .or. gwd_opt==3 .or. gwd_opt==2)
+  active = (flag_for_ugwp_version_1 .or. diag_ugwp_gsl_flag)
 [dvdt_obl]
   standard_name = tendency_of_y_momentum_due_to_blocking_drag
   long_name = y momentum tendency from blocking drag
@@ -7305,7 +7343,7 @@
   dimensions = (horizontal_loop_extent,vertical_dimension)
   type = real
   kind = kind_phys
-  active = (flag_for_ugwp_version_1 .or. gwd_opt==33 .or. gwd_opt==22 .or. gwd_opt==3 .or. gwd_opt==2)
+  active = (flag_for_ugwp_version_1 .or. diag_ugwp_gsl_flag)
 [du_oblcol]
   standard_name = vertically_integrated_x_momentum_flux_due_to_blocking_drag
   long_name = integrated x momentum flux from blocking drag
@@ -7329,7 +7367,7 @@
   dimensions = (horizontal_loop_extent,vertical_dimension)
   type = real
   kind = kind_phys
-  active = (flag_for_ugwp_version_1 .or. gwd_opt==33 .or. gwd_opt==22 .or. gwd_opt==3 .or. gwd_opt==2)
+  active = (flag_for_ugwp_version_1 .or. diag_ugwp_gsl_flag)
 [dvdt_oss]
   standard_name = tendency_of_y_momentum_due_to_small_scale_gravity_wave_drag
   long_name = y momentum tendency from small scale gwd
@@ -7337,7 +7375,7 @@
   dimensions = (horizontal_loop_extent,vertical_dimension)
   type = real
   kind = kind_phys
-  active = (flag_for_ugwp_version_1 .or. gwd_opt==33 .or. gwd_opt==22 .or. gwd_opt==3 .or. gwd_opt==2)
+  active = (flag_for_ugwp_version_1 .or. diag_ugwp_gsl_flag)
 [du_osscol]
   standard_name = vertically_integrated_x_momentum_flux_due_to_small_scale_gravity_wave_drag
   long_name = integrated x momentum flux from small scale gwd
@@ -7361,7 +7399,7 @@
   dimensions = (horizontal_loop_extent,vertical_dimension)
   type = real
   kind = kind_phys
-  active = (flag_for_ugwp_version_1 .or. gwd_opt==33 .or. gwd_opt==22 .or. gwd_opt==3 .or. gwd_opt==2)
+  active = (flag_for_ugwp_version_1 .or. diag_ugwp_gsl_flag)
 [dvdt_ofd]
   standard_name = tendency_of_y_momentum_due_to_form_drag
   long_name = y momentum tendency from form drag
@@ -7369,7 +7407,7 @@
   dimensions = (horizontal_loop_extent,vertical_dimension)
   type = real
   kind = kind_phys
-  active = (flag_for_ugwp_version_1 .or. gwd_opt==33 .or. gwd_opt==22 .or. gwd_opt==3 .or. gwd_opt==2)
+  active = (flag_for_ugwp_version_1 .or. diag_ugwp_gsl_flag)
 [du_ofdcol]
   standard_name = vertically_integrated_x_momentum_flux_due_to_form_drag
   long_name = integrated x momentum flux from form drag

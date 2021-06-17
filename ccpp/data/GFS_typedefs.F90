@@ -598,6 +598,7 @@ module GFS_typedefs
 !vay 2018  GW physics switches
 
     logical              :: ldiag_ugwp
+    logical              :: ldiag_ugwp_gsl  ! additional diagnostics for GSL drag suite
     logical              :: do_ugwp         ! do mesoscale UGWP + TOFD + RF
     logical              :: do_tofd         ! tofd flag in gwdps.f
     logical              :: do_gwd          ! logical for gravity wave drag (gwd)
@@ -1622,6 +1623,11 @@ module GFS_typedefs
     real (kind=kind_phys), pointer :: du3dt_moist(:,:) => null()  !< daily aver GFS_phys tend for WE-U MOIST
     real (kind=kind_phys), pointer :: dv3dt_moist(:,:) => null()  !< daily aver GFS_phys tend for SN-V MOIST
     real (kind=kind_phys), pointer :: dt3dt_moist(:,:) => null()  !< daily aver GFS_phys tend for Temp MOIST
+!
+    real (kind=kind_phys), pointer :: dws3dt_ogw(:,:) => null()  !< daily aver GFS_phys tend for windspeed OGW
+    real (kind=kind_phys), pointer :: dws3dt_obl(:,:) => null()  !< daily aver GFS_phys tend for windspeed OBL
+    real (kind=kind_phys), pointer :: dws3dt_oss(:,:) => null()  !< daily aver GFS_phys tend for windspeed OSS
+    real (kind=kind_phys), pointer :: dws3dt_ofd(:,:) => null()  !< daily aver GFS_phys tend for windspeed OFD
 !
 !--- Instantaneous UGWP-diagnostics  16-variables
 !       Diag%gwp_ax, Diag%gwp_axo, Diag%gwp_axc, Diag%gwp_axf,       &
@@ -3168,6 +3174,7 @@ module GFS_typedefs
     logical              :: do_ugwp_v1_w_gsldrag = .false.      !< flag for version 1 ugwp GWD (orographic drag only)
 !--- vay-2018
     logical              :: ldiag_ugwp     = .false.                  !< flag for UGWP diag fields
+    logical              :: ldiag_ugwp_gsl = .false.                  !< flag for UGWP+GSL_drag diag fields
     logical              :: do_ugwp        = .false.                  !< flag do UGWP+RF
     logical              :: do_tofd        = .false.                  !< flag do Turb oro Form Drag
 
@@ -3474,7 +3481,8 @@ module GFS_typedefs
                                lndp_type,  n_var_lndp, lndp_each_step,                      &
                                pert_mp,pert_clds,pert_radtend,                              &
                           !--- Rayleigh friction
-                               prslrd0, ral_ts,  ldiag_ugwp, do_ugwp, do_tofd,              &
+                               prslrd0, ral_ts, ldiag_ugwp, ldiag_ugwp_gsl,                 &
+                               do_ugwp, do_tofd,                                            &
                           ! --- Ferrier-Aligo
                                spec_adv, rhgrd, icloud,                                     &
                           !--- mass flux deep convection
@@ -3624,6 +3632,7 @@ module GFS_typedefs
 !VAY-ugwp  --- set some GW-related switches
 !
     Model%ldiag_ugwp       = ldiag_ugwp
+    Model%ldiag_ugwp_gsl   = ldiag_ugwp_gsl
     Model%do_ugwp          = do_ugwp
     Model%do_tofd          = do_tofd
 
@@ -5773,9 +5782,15 @@ module GFS_typedefs
       allocate (Diag%dtdt_tot  (IM,Model%levs) )
       allocate (Diag%uav_ugwp  (IM,Model%levs) )
       allocate (Diag%tav_ugwp  (IM,Model%levs) )
+      allocate (Diag%dws3dt_ogw (IM,Model%levs) )
+      allocate (Diag%dws3dt_obl (IM,Model%levs) )
+      if (Model%ldiag_ugwp_gsl) then
+         allocate (Diag%dws3dt_oss (IM,Model%levs) )
+         allocate (Diag%dws3dt_ofd (IM,Model%levs) )
+      end if
     endif
 
-    if (Model%do_ugwp_v1 .or. Model%gwd_opt==33 .or. Model%gwd_opt==22) then
+    if (Model%do_ugwp_v1 .or. Model%ldiag_ugwp_gsl) then
       allocate (Diag%dudt_ogw  (IM,Model%levs))
       allocate (Diag%dvdt_ogw  (IM,Model%levs))
       allocate (Diag%dudt_obl  (IM,Model%levs))
@@ -6042,7 +6057,7 @@ module GFS_typedefs
     Diag%dtdt_gw     = zero
     Diag%kdis_gw     = zero
 
-    if (Model%do_ugwp_v1 .or. Model%gwd_opt==33 .or. Model%gwd_opt==22) then
+    if (Model%do_ugwp_v1 .or. Model%ldiag_ugwp_gsl) then
       Diag%dudt_ogw    = zero
       Diag%dvdt_ogw    = zero
       Diag%dudt_obl    = zero
@@ -6087,6 +6102,12 @@ module GFS_typedefs
       Diag%dtdt_tot    = zero
       Diag%uav_ugwp    = zero
       Diag%tav_ugwp    = zero
+      Diag%dws3dt_ogw    = zero
+      Diag%dws3dt_obl    = zero
+      if (Model%ldiag_ugwp_gsl) then
+         Diag%dws3dt_oss    = zero
+         Diag%dws3dt_ofd    = zero
+      end if
 !COORDE
       Diag%du3dt_dyn   = zero
     endif
