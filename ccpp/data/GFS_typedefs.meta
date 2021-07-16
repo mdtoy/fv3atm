@@ -7360,6 +7360,22 @@
   type = real
   kind = kind_phys
   active = (flag_for_ugwp_version_1 .or. gwd_opt==33 .or. gwd_opt==22 .or. gwd_opt==3 .or. gwd_opt==2)
+[du3_oblcol]
+  standard_name = cumulative_vertically_integrated_x_momentum_flux_due_to_blocking_drag
+  long_name = cumulative integrated x momentum flux from blocking drag
+  units = Pa s
+  dimensions = (horizontal_loop_extent)
+  type = real
+  kind = kind_phys
+  active = (flag_for_ugwp_version_1 .or. diag_ugwp_gsl_flag)
+[dv3_oblcol]
+  standard_name = cumulative_vertically_integrated_y_momentum_flux_due_to_blocking_drag
+  long_name = cumulative integrated y momentum flux from blocking drag
+  units = Pa s
+  dimensions = (horizontal_loop_extent)
+  type = real
+  kind = kind_phys
+  active = (flag_for_ugwp_version_1 .or. diag_ugwp_gsl_flag)
 [dudt_oss]
   standard_name = tendency_of_x_momentum_due_to_small_scale_gravity_wave_drag
   long_name = x momentum tendency from small scale gwd

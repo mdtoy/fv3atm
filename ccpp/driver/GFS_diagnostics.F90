@@ -2562,6 +2562,30 @@ module GFS_diagnostics
          ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%dv_ofdcol(:)
        enddo
 
+       idx = idx + 1
+       ExtDiag(idx)%axes = 2
+       ExtDiag(idx)%name = 'du3_oblcol'
+       ExtDiag(idx)%desc = 'time averaged surface x momentum flux from blocking drag'
+       ExtDiag(idx)%unit = 'Pa'
+       ExtDiag(idx)%mod_name = 'gfs_phys'
+       ExtDiag(idx)%time_avg = .TRUE.
+       allocate (ExtDiag(idx)%data(nblks))
+       do nb = 1,nblks
+         ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%du3_oblcol(:)
+       enddo
+
+       idx = idx + 1
+       ExtDiag(idx)%axes = 2
+       ExtDiag(idx)%name = 'dv3_oblcol'
+       ExtDiag(idx)%desc = 'time averaged surface y momentum flux from blocking drag'
+       ExtDiag(idx)%unit = 'Pa'
+       ExtDiag(idx)%mod_name = 'gfs_phys'
+       ExtDiag(idx)%time_avg = .TRUE.
+       allocate (ExtDiag(idx)%data(nblks))
+       do nb = 1,nblks
+         ExtDiag(idx)%data(nb)%var2 => IntDiag(nb)%dv3_oblcol(:)
+       enddo
+
     end if   ! if (Model%ldiag_ugwp_gsl)
 
   ENDIF  ! if (Model%ldiag_ugwp)

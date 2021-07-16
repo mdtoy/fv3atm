@@ -1589,6 +1589,8 @@ module GFS_typedefs
     real (kind=kind_phys), pointer :: dv_osscol(:)   => null()  !<
     real (kind=kind_phys), pointer :: du_ofdcol(:)   => null()  !<
     real (kind=kind_phys), pointer :: dv_ofdcol(:)   => null()  !<
+    real (kind=kind_phys), pointer :: du3_oblcol(:)  => null()  !<
+    real (kind=kind_phys), pointer :: dv3_oblcol(:)  => null()  !<
 !
 !---vay-2018 UGWP-diagnostics daily mean
 !
@@ -5807,6 +5809,8 @@ module GFS_typedefs
       allocate (Diag%dv_osscol (IM)           )
       allocate (Diag%du_ofdcol (IM)           )
       allocate (Diag%dv_ofdcol (IM)           )
+      allocate (Diag%du3_oblcol (IM)          )
+      allocate (Diag%dv3_oblcol (IM)          )
     else
       allocate (Diag%dudt_ogw  (IM,Model%levs))
     end if
@@ -6074,6 +6078,8 @@ module GFS_typedefs
       Diag%dv_osscol   = zero
       Diag%du_ofdcol   = zero
       Diag%dv_ofdcol   = zero
+      Diag%du3_oblcol  = zero
+      Diag%dv3_oblcol  = zero
     else
       Diag%dudt_ogw    = zero
     end if
